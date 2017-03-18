@@ -1,0 +1,15 @@
+master:
+  build: .
+  volumes:
+    - ./blender:/etc/blender
+  ports:
+    - "8000:8000"
+  command: /bin/sh -c "/opt/blender/blender -b /etc/blender/master.blend -a"
+
+slave:
+  build: .
+  volumes:
+    - ./blender:/etc/blender
+  links:
+    - master:master
+  command: /bin/sh -c "sleep 5; /opt/blender/blender -b /etc/blender/slave.blend -a"
